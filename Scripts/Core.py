@@ -8,7 +8,7 @@ class Core:
     version = "0.0.1"
 
     display = pygame.display
-    display.set_caption(f"Role Engine - Version: {version}")
+    display.set_caption(f"RoleEngineA2 - Version: {version}")
     screen = display.set_mode((width, height))
     clock = pygame.time.Clock()
     RunVar = True
