@@ -1,6 +1,6 @@
 import pygame
 
-from Scripts.Render import Render
+from Assets.Scripts.Render import Render
 
 class Object:
     x, y = 0.0, 0.0
@@ -75,4 +75,37 @@ class Rect(Object):
 
     def GetPosition(self):
         return (self.x, self.y)
+
+class Entity(pygame.sprite.Sprite):
+    name = ""
+    shape = pygame.rect.Rect
+    type = "Entity"
+    width = 0
+    height = 0
+
+    def __init__(self, name:str, width:int, height:int, color):
+        super().__init__()
+        self.color = color
+        self.name = name
+        self.width = width
+        self.height = height
+
+        # If color is a color value or image
+        if color.__class__ is not pygame.surface.Surface:
+            self.image = pygame.Surface([self.width, self.height])
+            self.image.fill(self.color)
+        else:
+            self.image = color
+            self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
+        self.shape = self.image.get_rect()
+
+    def AddToBeRendered(self):
+            Render.ToBeRenderedList.append(self)
     
+    def RemoveToBeRendered(self):
+        objs = 0
+        for x in Render.ToBeRenderedList:
+            if x.name == self.name:
+                Render.ToBeRenderedList.pop(objs)
+            objs += 1

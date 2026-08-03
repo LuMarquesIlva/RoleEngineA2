@@ -1,6 +1,6 @@
 import pygame
 
-from Scripts.Error import Error
+from Assets.Scripts.Error import Error
 
 
 class Core:
@@ -9,7 +9,7 @@ class Core:
 
     display = pygame.display
     display.set_caption(f"RoleEngineA2 - Version: {version}")
-    screen = display.set_mode((width, height))
+    screen = display.set_mode((width, height), pygame.SCALED, vsync=1)
     clock = pygame.time.Clock()
     RunVar = True
 
@@ -27,6 +27,10 @@ class Core:
     def _SetRunVar_(_Var_):
         Core.RunVar = _Var_
 
+    @staticmethod
+    def LoadImageFromFile(path:str):
+        return pygame.image.load(path)
+
     def __init__(self):
         pygame.init() # Initalize Pygame
 
@@ -38,4 +42,4 @@ class Core:
     def __call__(self):
         return self
 
-from Scripts.Input import Input
+#from Scripts.Input import Input

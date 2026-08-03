@@ -1,0 +1,1 @@
+#build with uv run pyinstaller --onefile --add-data "Assets:dist/Assets" main.py

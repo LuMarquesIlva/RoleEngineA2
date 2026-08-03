@@ -1,13 +1,17 @@
-from Scripts.Core import Core
-from Scripts.Input import Input
-from Scripts.Entity import Rect
-from Scripts.Render import Render
+#!/usr/bin/env -S uv run --script
+
+from Assets.Scripts.Core import Core
+from Assets.Scripts.Input import Input
+from Assets.Scripts.Entity import Rect, Entity
+from Assets.Scripts.Render import Render
 
 input = Input()
 core = Core()
 
+vel = 3
+
 def main():
-    Player = Rect("Player", 30, 30, 80, 60, (100, 150, 200, 255))
+    Player = Entity("Player", 150, 150, core.LoadImageFromFile("Assets/Images/Icons/AgnesPFP.jpg"))
 
     Player.AddToBeRendered()
 
@@ -17,13 +21,13 @@ def main():
         try:
             match input.GetPressedKey()[0]:
                 case  "w":
-                    Player.shape.y -= 1
+                    Player.shape.y -= vel
                 case "a":
-                    Player.shape.x -= 1
+                    Player.shape.x -= vel
                 case "s":
-                    Player.shape.y += 1
+                    Player.shape.y += vel
                 case "d":
-                    Player.shape.x += 1
+                    Player.shape.x += vel
                 case _:
                     pass
         except:

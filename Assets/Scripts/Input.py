@@ -1,7 +1,7 @@
 import pygame
 
-from Scripts.Error import Error
-from Scripts.Utility import VariableControl
+from Assets.Scripts.Error import Error
+from Assets.Scripts.Utility import VariableControl
 
 class Input:
     MainEventClass = pygame.event

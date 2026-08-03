@@ -1,6 +1,6 @@
 import pygame
 
-from Scripts.Core import Core
+from Assets.Scripts.Core import Core
 
 class Render:
 
@@ -14,6 +14,8 @@ class Render:
             match n.type:
                 case "Rect":
                     pygame.draw.rect(Core.screen, n.color, n.shape)
+                case "Entity":
+                    Core.screen.blit(n.image, n.shape)
 
     @staticmethod
     def EndRender():
