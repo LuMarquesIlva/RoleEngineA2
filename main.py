@@ -14,6 +14,10 @@ def main():
     while core._GetRunVar_() is True:
         input.Update()
 
+        print(input.GetPressedKeys())
+        if input.GetPressedKeys()["d"] is True:
+            Player.shape.x += 1
+
         core.screen.fill((100, 100, 150, 255))
 
         Render.Update()

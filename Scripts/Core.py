@@ -1,7 +1,7 @@
 import pygame
 
 from Scripts.Error import Error
-from Scripts.Input import Input
+
 
 class Core:
     width, height = 800, 600
@@ -12,7 +12,6 @@ class Core:
     screen = display.set_mode((width, height))
     clock = pygame.time.Clock()
     RunVar = True
-    input = Input
 
     InitCompleted = False
 
@@ -38,3 +37,5 @@ class Core:
 
     def __call__(self):
         return self
+
+from Scripts.Input import Input
