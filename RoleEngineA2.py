@@ -11,7 +11,7 @@ core = Core()
 vel = 3
 
 def main():
-    Player = Entity("Player", 150, 150, core.LoadImageFromFile("Assets/Images/Icons/AgnesPFP.jpg"))
+    Player = Entity("Player", 150, 150, core.LoadImageFromFile("Assets/Images/Icons/logo.png"))
 
     Player.AddToBeRendered()
 

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=RoleEngineA2
+Exec=./RoleEngineA2 %F
+Icon=/_internal/Assets/Images/Icons/logo
+Terminal=false
+Categories=Application;

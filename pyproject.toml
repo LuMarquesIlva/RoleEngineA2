@@ -17,10 +17,12 @@ dependencies = []
 
 [dependency-groups]
 dev = [
+    "meson>=1.11.2",
+    "pillow>=12.3.0",
     "pygame>=2.6.1",
     "pyinstaller>=6.21.0",
     "uvbox>=1.0.9",
 ]
 
 [project.gui-scripts]
-roleenginea2 = "RoleEngineA2:main"
+roleenginea2 = "RoleEngineA2:RoleEngineA2"

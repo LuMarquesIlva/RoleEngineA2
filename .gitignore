@@ -5,7 +5,10 @@ build/
 dist/
 wheels/
 *.egg-info
-main.spec
+RoleEngineA2.spec
 
+subprojects/AppImageTool/*
+tools/
+*.AppImage
 # Virtual environments
 .venv

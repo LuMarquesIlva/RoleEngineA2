@@ -1,0 +1,3 @@
+[submodule "subprojects/AppImageTool"]
+	path = subprojects/AppImageTool
+	url = https://github.com/AppImage/appimagetool.git
