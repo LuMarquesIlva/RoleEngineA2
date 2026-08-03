@@ -25,6 +25,7 @@ class Object:
         return self.color
 
 
+
 class Rect(Object):
     x2, y2 = 1.0, 1.0
     shape = pygame.rect.Rect(Object.x, Object.y, x2, y2)
@@ -64,3 +65,14 @@ class Rect(Object):
     
     def GetScale(self):
         return self.scale
+
+    # TODO: FIX
+    def SetPosition(self, *position):
+        if position[0].type is int and position[1].type is int:
+            self.x = position[0]
+            self.y = position[1]
+            self.UpdateShape()
+
+    def GetPosition(self):
+        return (self.x, self.y)
+    

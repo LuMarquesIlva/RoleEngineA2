@@ -6,6 +6,8 @@ from Scripts.Utility import VariableControl
 class Input:
     MainEventClass = pygame.event
 
+    LastKey = ""
+
     def __init__(self):
         Error.RaiseTypeErrorIfNone(self.MainEventClass)
 
@@ -22,8 +24,12 @@ class Input:
         #print(Keyboard.KeysList)
     
     @staticmethod
-    def GetPressedKeys():
-        return Keyboard.KeysList
+    def GetPressedKey():
+        return (Input.LastKey, Keyboard.KeysList)
+
+    @staticmethod
+    def AddValueTolist(value:str):
+        Keyboard.AddValueTolist(value)
 
 class Mouse:
 
@@ -39,45 +45,18 @@ class Mouse:
 
 class Keyboard:
 
-    KeysList = {
-        "w": False,
-        "a": False,
-        "s": False,
-        "d": False
-    }
+    KeysList = {}
+
+    @staticmethod
+    def AddValueTolist(value:str):
+        Keyboard.KeysList[value] = False
 
     @staticmethod
     def Update():
         for KEYDOWN in Input.MainEventClass.get(pygame.KEYDOWN):
-            match KEYDOWN.key:
-                case pygame.K_w:
-                    Keyboard.KeysList["w"] = True
-                    break
-                case pygame.K_a:
-                    Keyboard.KeysList["a"] = True
-                    break
-                case pygame.K_s:
-                    Keyboard.KeysList["s"] = True
-                    break
-                case pygame.K_d:
-                    Keyboard.KeysList["d"] = True
-                    break
-                case _:
-                    pass
+            Keyboard.KeysList[KEYDOWN.unicode] = True
+            Input.LastKey = KEYDOWN.unicode
 
         for KEYUP in Input.MainEventClass.get(pygame.KEYUP):
-            match KEYUP.key:
-                case pygame.K_w:
-                    Keyboard.KeysList["w"] = False
-                    break
-                case pygame.K_a:
-                    Keyboard.KeysList["a"] = False
-                    break
-                case pygame.K_s:
-                    Keyboard.KeysList["s"] = False
-                    break
-                case pygame.K_d:
-                    Keyboard.KeysList["d"] = False
-                    break
-                case _:
-                    pass
+            Keyboard.KeysList[KEYUP.unicode] = False
+            Input.LastKey = ""

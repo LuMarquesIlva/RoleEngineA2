@@ -14,17 +14,26 @@ def main():
     while core._GetRunVar_() is True:
         input.Update()
 
-        print(input.GetPressedKeys())
-        if input.GetPressedKeys()["d"] is True:
-            Player.shape.x += 1
+        try:
+            match input.GetPressedKey()[0]:
+                case  "w":
+                    Player.shape.y -= 1
+                case "a":
+                    Player.shape.x -= 1
+                case "s":
+                    Player.shape.y += 1
+                case "d":
+                    Player.shape.x += 1
+                case _:
+                    pass
+        except:
+            print("Input Error")
 
-        core.screen.fill((100, 100, 150, 255))
+        Render.StartRender()
 
-        Render.Update()
+        
 
-        core.display.flip()
-
-        core.clock.tick(60)
+        Render.EndRender()
 
     core.quit()
 
