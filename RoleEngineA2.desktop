@@ -1,7 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=RoleEngineA2
-Exec=./RoleEngineA2 %F
-Icon=/_internal/Assets/Images/Icons/logo
+Comment=A Game Engine Made On Top Of Pygame
+Exec=./RoleEngineA2-x86_64.AppImage
+Icon=RoleEngineA2
 Terminal=false
-Categories=Application;
+Categories=Development;

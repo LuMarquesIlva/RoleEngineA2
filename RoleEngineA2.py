@@ -11,16 +11,21 @@ core = Core()
 vel = 3
 
 def main():
-    Player = Entity("Player", 150, 150, core.LoadImageFromFile("Assets/Images/Icons/logo.png"))
+    Player = Entity("Player", 300, 300, core.LoadImageFromFile("Assets/Images/Icons/logo.svg"))
 
+    Recto = Rect("Recto", 340, 250, 80, 80, (10, 100, 34, 100))
+    Recto2 = Rect("Recto2", 640, 250, 80, 80, (10, 100, 230, 100))
+
+    Recto2.AddToBeRendered()
     Player.AddToBeRendered()
+    Recto.AddToBeRendered()
 
     while core._GetRunVar_() is True:
         input.Update()
 
         try:
             match input.GetPressedKey()[0]:
-                case  "w":
+                case "w":
                     Player.shape.y -= vel
                 case "a":
                     Player.shape.x -= vel

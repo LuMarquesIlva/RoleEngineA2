@@ -31,16 +31,15 @@ class Rect(Object):
     shape = pygame.rect.Rect(Object.x, Object.y, x2, y2)
     type = "Rect"
 
-    def __init__(self, name:str, x:float, y:float, x2:float, y2:float, *color):
-        RectObj = Rect
+    def __init__(self, name:str, x:int, y:int, x2:int, y2:int, color=(255, 255, 255, 255)):
 
-        RectObj.name = name
-        RectObj.color = color
+        self.name = name
+        self.color = color
         self.x = x
         self.y = y
         self.x2 = x2
         self.y2 = y2
-        RectObj.shape = pygame.Rect(self.x, self.y, self.x2, self.y2)
+        self.shape = pygame.Rect(self.x, self.y, self.x2, self.y2)
 
     def __call__(self):
         return self
@@ -83,7 +82,9 @@ class Entity(pygame.sprite.Sprite):
     width = 0
     height = 0
 
-    def __init__(self, name:str, width:int, height:int, color):
+    spritesheet = None
+
+    def __init__(self, name:str, width:int, height:int, color=(255, 255, 255, 255)):
         super().__init__()
         self.color = color
         self.name = name
@@ -99,6 +100,8 @@ class Entity(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
         self.shape = self.image.get_rect()
+
+    
 
     def AddToBeRendered(self):
             Render.ToBeRenderedList.append(self)
