@@ -11,8 +11,9 @@ core = Core()
 vel = 3
 
 def main():
-    Player = Entity("Player", 300, 300, core.LoadImageFromFile("Assets/Images/Icons/logo.svg"))
-
+    Player = Entity("Player", 300, 300, core.LoadImageFromFile("Assets/Images/Sprites/Player/spryte-run.png"), True, 60)
+    #Player.image = Player.CropImageSection(0, 50, 200, 300)
+    print(Player.frames)
     Recto = Rect("Recto", 340, 250, 80, 80, (10, 100, 34, 100))
     Recto2 = Rect("Recto2", 640, 250, 80, 80, (10, 100, 230, 100))
 
@@ -22,6 +23,7 @@ def main():
 
     while core._GetRunVar_() is True:
         input.Update()
+        Player.UpdateImage()
 
         try:
             match input.GetPressedKey()[0]:

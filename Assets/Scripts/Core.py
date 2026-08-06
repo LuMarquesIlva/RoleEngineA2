@@ -1,4 +1,5 @@
 import pygame
+from PIL import Image
 
 from Assets.Scripts.Error import Error
 import Assets.Scripts.Utility as Utility
@@ -31,7 +32,7 @@ class Core:
     @staticmethod
     def LoadImageFromFile(path:str):
         return pygame.image.load(path)
-
+  
     def __init__(self):
         pygame.init() # Initalize Pygame
 
