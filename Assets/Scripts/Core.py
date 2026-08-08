@@ -17,6 +17,8 @@ class Core:
 
     InitCompleted = False
 
+    dt = 0.0 # Delta Time
+
     @staticmethod
     def quit():
         pygame.quit()
@@ -31,7 +33,7 @@ class Core:
 
     @staticmethod
     def LoadImageFromFile(path:str):
-        return pygame.image.load(path)
+        return pygame.image.load(path).convert_alpha()
   
     def __init__(self):
         pygame.init() # Initalize Pygame

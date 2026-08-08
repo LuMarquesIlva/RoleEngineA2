@@ -1,7 +1,13 @@
 import pygame
+import pygame.surfarray as surfarray
 from PIL import Image
+import numpy as np
+
+import io
+import base64
 
 from Assets.Scripts.Render import Render
+import Assets.Scripts.Core as Core
 
 class Object:
     x, y = 0.0, 0.0
@@ -83,6 +89,7 @@ class Entity(pygame.sprite.Sprite):
     width = 0
     height = 0
     frameNumber = 0
+    frameSpeed = 0.2
 
     SpriteScale = 8
 
@@ -100,23 +107,26 @@ class Entity(pygame.sprite.Sprite):
         self.SpriteScale = SpriteScale
 
         # If color is a color value or image
-        if color.__class__ is not pygame.surface.Surface:
+        if color.__class__ is not pygame.surface.Surface: # it's just a color
             self.image = pygame.Surface([self.width, self.height])
             self.image.fill(self.color)
-        elif IsColorSpritesheet is False:
+        elif IsColorSpritesheet is False: # It's an image but not spritesheet
             self.image = color
             self.image = pygame.transform.scale(self.image, (self.width, self.height))
-        else:
+        else: # It's a spritesheet
+            self.spritesheet = pygame.Surface((self.width, self.height), pygame.SRCALPHA) # Adds SRCALPHA to the image property
             self.image = color
+
             self.spritesheet = pygame.transform.scale(self.image, (self.width, self.height))
+            self.SpriteScale = int((int(self.width * self.height) / 100) / self.SpriteScale) # TODO: Fix Steps When Scaling Sprites
 
         if IsColorSpritesheet is True and self.color.__class__ is pygame.surface.Surface:
             # Splits The Sprite Into Frames Using SpriteScale As The Frame Size
-            for x in range(0, int(self.spritesheet.get_width()), self.SpriteScale): #type: ignore
-                for y in range(0, int(self.spritesheet.get_height()), self.SpriteScale): #type: ignore
+            for y in range(0, int(self.spritesheet.get_height()), self.SpriteScale): #type: ignore
+                for x in range(0, int(self.spritesheet.get_width()), self.SpriteScale): #type: ignore
                     im = self.CropImageSection(x, y, self.SpriteScale+x, self.SpriteScale+y) # Crops The Sprite In A Section
                     self.frames.append(im) # Append It To The Frames List
-            self.image = self.frames[self.frameNumber] # Makes The Default Image The First Frame
+            self.image = self.frames[int(self.frameNumber)] # Makes The Default Image The First Frame
 
         self.shape = self.image.get_rect() # Gets the shape of the image
 
@@ -124,38 +134,31 @@ class Entity(pygame.sprite.Sprite):
         return self
 
     def UpdateImage(self):
-        self.image = self.frames[self.frameNumber]
+        #print(int(self.frameNumber-1))
+        self.image = self.frames[int(self.frameNumber-1)]
 
-        # Search for the object with the same name and updates it
-        for x in Render.ToBeRenderedList:
-           if x.name == self.name:
-               x.image = self.image
+    def StartAnimation(self):
+        if self.frameNumber <= len(self.frames)-1:
+            if Core.Core.dt != 0: self.frameNumber += 1 * Core.Core.dt + self.frameSpeed
+        else:
+            self.frameNumber = 0
 
     def CropImageSection(self, x:float, y:float, x2:float, y2:float):
             image = self.spritesheet
-            try: # Tries to Open the Image if string, else converts from pygame image to pillow image
-                if image.__class__ is str:
-                    Image.open(image).convert('RGBA') # type: ignore
-                else: # Convets to Pillow Image
-                    RawData = pygame.image.tostring(image, "RGBA") # type: ignore
-                    PilImage = Image.frombytes("RGBA", image.get_size(), RawData) # type: ignore
-            except:
-                raise TypeError("Image Is Neither Pygame Image Nor Image Path")
+            #try: # Tries to Open the Image if string, else converts from pygame image to pillow image
+            if image.__class__ is str:
+                Image.open(image).convert('RGBA') # type: ignore
+            else: # Converts to Pillow Image
+                raw_data = pygame.image.tostring(image, 'RGBA') # Gets the image RawData #type: ignore
+                PilImage = Image.frombytes('RGBA', image.get_size(), raw_data) # And Converts It To For Pillow to use #type: ignore
 
             try:
-                CroppedImage = PilImage.crop((x, y, x2, y2)) # type: ignore
+                CroppedImage = PilImage.crop((x, y, x2, y2)) #Crops the image # type: ignore
             except:
                 print(f"Could Not Crop The Image: Image Coordinates {x} {y} {x2} {y2}")
 
-            try:
-                # Converts Back To Pygame Image
-                PygameSurfaceCropped = pygame.image.fromstring(
-                    CroppedImage.tobytes(), #type: ignore
-                    CroppedImage.size, #type: ignore
-                    "RGBA"
-                ).convert()
-            except:
-                print("Could Not Crop The SpriteSheet")
+            PygameSurfaceCropped = pygame.image.frombytes(CroppedImage.tobytes(), CroppedImage.size, "RGBA") # And converts to pygame image again # type: ignore
+            PygameSurfaceCropped = PygameSurfaceCropped.convert_alpha() # Ensures there is an alpha channel
 
             try:
                 return PygameSurfaceCropped # type: ignore

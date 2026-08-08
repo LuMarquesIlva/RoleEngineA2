@@ -8,6 +8,8 @@ class Render:
 
     @staticmethod
     def StartRender():
+        Core.dt = Core.clock.tick(60) / 1000.0  # Delta time em segundos
+
         Core.screen.fill((100, 100, 120, 255))
 
         for n in Render.ToBeRenderedList:
@@ -20,5 +22,3 @@ class Render:
     @staticmethod
     def EndRender():
         Core.display.flip()
-        
-        Core.clock.tick(60)
